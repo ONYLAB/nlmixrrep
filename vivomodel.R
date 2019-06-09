@@ -4,8 +4,6 @@ library(xpose)
 library(xpose.nlmixr)
 library(ggplot2)
 
-setwd("~/StaffFellow/Projects/MIDD/Simulations/2")
-
 rm(list=ls(all=TRUE)) 
 graphics.off()
 
