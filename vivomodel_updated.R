@@ -4,13 +4,10 @@ library(xpose)
 library(xpose.nlmixr)
 library(ggplot2)
 
-setwd("~/StaffFellow/Projects/MIDD/Simulations/2")
-
 rm(list=ls(all=TRUE)) 
 graphics.off()
 
 dat <- read.table("EBOV.txt", head=TRUE)
-# dat$DV = (10^dat$DV)
 str(dat)
 ggplot(dat, aes(TIME, DV)) + geom_line(aes(group=id), col="red") + scale_x_continuous("Time (d)") + scale_y_continuous("log10 Viremia (cp/mL)") + labs(title="Viremia", subtitle="Viremia vs. time by individual")
 
@@ -32,21 +29,12 @@ vivo <- function() {
     lka<-log(2.08E-5)
     lql<-log(0.0097)
     lqn<-log(0.0046)
-    #lepsi<-log(0)
     
     eta.d ~ 0.028561
     eta.p ~ 3.0976
     eta.V0 ~ 2.25
-    # eta.b ~ 0.01 ##!
-    # eta.q ~ 0.01 ##!
     eta.Tt ~ 1.1025
-    # eta.fi ~ 0.01 ##!
     eta.E0 ~ 0.600625
-    # eta.zeta ~ 0.01 ##!
-    # eta.r ~ 0.01 ##!
-    # eta.s ~ 0.01 ##!
-    # eta.Te ~ 0.01 ##!
-    # eta.ka ~ 0.01 ##!
     eta.ql ~ 0.5776
     eta.qn ~ 1.0609
     
@@ -69,7 +57,6 @@ vivo <- function() {
     ka<-exp(lka)# + eta.ka) ##!
     ql <- exp(lql + eta.ql)
     qn <- exp(lqn + eta.qn)
-    #epsi<-exp(lepsi)
     
     ## Fixed parameters
     c = 20;      # the free virion elimination rate, c, was set to 20 per day
@@ -99,7 +86,7 @@ vivo <- function() {
     d/dt(infect1) = b*target*viremia - k*infect1;
     d/dt(infect2) = k*infect1 - d*infect2 - ka*infect2*specT;
     d/dt(refractory) = fi*target*ifn/(ifn+Tt);
-    d/dt(viremia) = p*infect2 - c*viremia; ##p*(1-epsi)*infect2 - c*viremia;
+    d/dt(viremia) = p*infect2 - c*viremia;
     d/dt(ifn) = q*infect2 - dfe*ifn;
     d/dt(il6) = ql*infect2 - dl*il6;
     d/dt(tnf) = qn*infect2 - dn*tnf;
